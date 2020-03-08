@@ -1,0 +1,238 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+struct wrc
+{
+    char name[30],phone[10],roll[20];
+    char department[30];
+    int sem;
+} x;
+
+int n,i,j=0,a=0,sum=0,g,flag,num;
+void read();
+void add();
+void exit();
+void view();
+void search();
+void edit();
+void del();
+void show();
+
+main()
+{
+    read();
+    int c,i,q;
+    printf(" ************* Campus Management System *************\n");
+    printf(" \n \n \n");
+    while (c!=6)
+    {
+    	printf("Enter your choice \n");
+    	printf("1::Add data \n");
+    	printf("2::View the data \n");
+    	printf("3::Search data \n");
+    	printf("4::Edit data \n");
+    	printf("5::Delete data \n");
+    	printf("6::Exit \n");
+    	printf("Option=");
+    	scanf("%d",&c);
+    	fflush(stdin);
+    	if(c==1)
+    	{
+    		system("cls");
+    		add();
+		}
+		else if(c==2)
+		{
+			system("cls");
+			view();
+		}
+		else if(c==3)
+		{
+			system("cls");
+			search();
+		}
+		else if(c==4)
+		{
+			system("cls");
+			edit();
+		}
+		else if(c==5)
+		{
+			system("cls");
+			del();
+		}
+		else if (c==6)
+		{
+			system("cls");
+			exit();
+		}
+		else
+		{
+			system("cls");
+			printf("\n Invalid choice.Try again");
+		}
+		printf("\n\n");
+		getch();
+	}
+}
+	void add()
+	{
+		FILE *fp;
+		fp=fopen("info.txt","a");
+		printf("How many data's you want to add? \n");
+			scanf("%d",&n);
+			{
+			for(i=0;i<n;i++)
+			{
+				printf("Enter students name:");
+				scanf("%s",&x.name);
+			fflush(stdin);
+			printf("Enter department = ");
+    	    scanf("%s",&x.department);
+    	    fflush(stdin);
+    	    printf("Enter the sem = ");
+    	    scanf("%d",&x.sem);
+    	    fflush(stdin);
+    	    printf("Enter roll no = ");
+    	    scanf("%s",&x.roll);
+    	    fflush(stdin);
+    	    printf("Enter phone number = ");
+    	    scanf("%s",&x.phone);
+    	    fflush(stdin);
+    	    fwrite(&x,sizeof(x),1,fp);
+    	    fprintf(fp,"%s \t %s \t %d \t %s \t %s \n",x.name,x.department,x.sem,x.roll,x.phone);
+    		}
+    	    printf("\n");
+        
+		}
+		fclose(fp);	
+	}
+	
+	void view()
+	{
+	char ch;
+	FILE *fp;
+	printf("\n");
+	fp = fopen("info.txt","r");
+	if(fp == NULL)
+	{
+		printf("File not found!");
+		exit(1);
+	}
+	else
+	{	
+		while((ch=fgetc(fp))!=EOF)
+		{
+			printf("%c",ch);
+		}
+	}
+	fclose(fp);	
+}
+	void edit()
+	{
+		int p,q,croll;
+		char newname[20];
+		fflush(stdin);
+		printf("What do you want to edit? \n ");
+		printf("1::Name \n 2::Department \n 3::Semester \n 4::Phone no. \n");
+		printf("Choice = \n");
+		scanf("%d",&p);
+		if (p<=4)
+		{
+			printf("Enter the roll no of the std whose record you want to modify");
+			scanf("%s",&q);
+			for(i=0;i<num;i++)
+			{
+			
+				{	
+					if (p==1)
+					{
+						fflush(stdin);
+						printf("Enter new name \n");
+						gets(x.name);
+					}
+					else if (p==2)
+					{
+						fflush(stdin);
+						printf("Enter new department \n");
+						gets(x.department);
+					}
+					else if(p==3)
+					{
+						fflush(stdin);
+						printf("Enter new semester: \n");
+						scanf("%c",&x.sem);
+					}
+					else if (p==4)
+					{
+						fflush(stdin);
+						printf("Enter new phone no.");
+						scanf("%d",&x.phone);
+					}
+					else
+					{
+						printf("Invalid Try Again!!!");
+					}
+				}
+			}
+		}
+	}
+		void search()
+		{
+			FILE *fp;
+			fp=fopen("info.txt","r+");
+			int flag=1;
+			if(fp==0)
+			exit(0);
+			fflush(stdin);
+			char croll[20];;
+			printf("Whose record do you want to search? \n Enter his/her roll no. \n");
+			scanf("%s",croll);
+				while(fread(&x,sizeof(x),1,fp)==1)
+				{
+				if(strcmp(croll,x.roll)==0)
+				{
+				flag=0;
+				printf("\n\tRecord Found\n ");
+				printf("\nName:\t%s",x.name);
+				printf("\nDepartment:\t%s",x.department);
+				printf("\nSemester:\t%s",x.sem);
+				printf("\nPhone number:\t%s",x.phone);
+				flag=0;
+				break;
+				}
+				}
+			if(flag==1)
+			{	
+				printf("\n\tRequested Record could not be found!");
+			}
+		}
+		void del()
+		{
+			int f;
+			char r[20];
+			printf("Whose record do you want to delete?\n");
+			printf("Enter roll no: \n");
+			scanf("%d",&f);
+		
+       	 		printf("No record matched!!!");
+			
+		}
+		void read()
+		{
+			
+			FILE *fp=fopen("info.txt","r");
+			if(fp==NULL)
+			{
+				printf("File does not exist");
+			}
+    		fclose(fp);	
+		}
+		void exit()
+		{
+		 printf(" *******THANK YOU!!**********");
+		}
+		
+
+	
